@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html ng-app="githubApp">
+<head>
+    <title>GitHub Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers.js"></script>
+</head>
+<body ng-controller="GitHubController">
+    <div class="container">
+        <h1>GitHub Repository Search</h1>
+        <input type="text" ng-model="searchTerm" placeholder="Search for a repository..." class="form-control">
+        <button ng-click="search()" class="btn btn-primary">Search</button>
+        <div class="row">
+            <div class="col-md-4" ng-repeat="repo in repositories">
+                <div class="card">
+                    <img ng-src="{{repo.owner.avatar_url}}" class="card-img-top" alt="Owner Avatar">
+                    <div class="card-body">
+                        <h5 class="card-title">{{repo.name}}</h5>
+                        <button ng-click="bookmark(repo)" class="btn btn-secondary">Bookmark</button>
+                        <button ng-click="openEmailPopup(repo)" class="btn btn-primary">Send Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" style="display:block" ng-show="showEmailPopup==true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Send Repository Details</h5>
+                        <button type="button" class="close" ng-click="closeEmailPopup()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="email" ng-model="emailAddress" placeholder="Enter email address" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="sendEmail()" class="btn btn-primary">Send</button>
+                        <button type="button" ng-click="closeEmailPopup()" class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/angular.js")
+    @Scripts.Render("~/Scripts/app/app.js")
+}
+
